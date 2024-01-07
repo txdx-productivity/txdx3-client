@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:txdx3_client/theme.dart';
 
 class Sidebar extends StatelessWidget {
-  const Sidebar({Key? key}) : super(key: key);
+  const Sidebar({super.key});
   @override
   Widget build(BuildContext context) {
     return SizedBox(

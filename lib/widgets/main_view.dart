@@ -1,13 +1,17 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:txdx3_client/providers.dart';
 import 'package:txdx3_client/theme.dart';
 
 import 'window_buttons.dart';
 
-class MainView extends StatelessWidget {
-  const MainView({Key? key}) : super(key: key);
+class MainView extends HookConsumerWidget {
+  const MainView({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final commands = ref.watch(commandsListProvider);
+
     return Expanded(
       child: Container(
         decoration: const BoxDecoration(
@@ -22,6 +26,13 @@ class MainView extends StatelessWidget {
             child: Row(
               children: [Expanded(child: MoveWindow()), const WindowButtons()],
             ),
+          ),
+          Container(
+            child: switch (commands) {
+              AsyncError(:final error) => Text("error: $error"),
+              AsyncData(:final value) => Text(value.first.name),
+              _ => const Center(child: CircularProgressIndicator()),
+            }
           )
         ]),
       ),

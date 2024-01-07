@@ -1,12 +1,13 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:txdx3_client/theme.dart';
 
 import 'widgets/main_view.dart';
 import 'widgets/sidebar.dart';
 
 void main() {
-  runApp(const TxDx3App());
+  runApp(ProviderScope(child: TxDx3App()));
 
   doWhenWindowReady(() {
     const initialSize = Size(720, 576);
@@ -32,8 +33,8 @@ class TxDx3App extends StatelessWidget {
         body: WindowBorder(
           color: borderColor,
           width: 1,
-          child: Row(
-            children: const [Sidebar(), MainView()],
+          child: const Row(
+            children: [Sidebar(), MainView()],
           ),
         ),
       ),
