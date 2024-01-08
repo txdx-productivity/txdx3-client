@@ -1,6 +1,7 @@
+import "package:pocketbase/pocketbase.dart";
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import "package:pocketbase/pocketbase.dart";
+import 'package:txdx3_client/models/item.dart';
 
 import 'models/command.dart';
 
@@ -28,4 +29,12 @@ Future<List<Command>> commandsList(CommandsListRef ref) async {
   final results = await pb.collection("commands").getFullList();
 
   return results.map((record) => Command.fromRecord(record)).toList();
+}
+
+@riverpod
+class AsyncItems extends _$AsyncItems {
+  @override
+  Future<List<Item>> build() async {
+    final commands = await ref.watch(commandsListProvider.future);
+  }
 }

@@ -64,5 +64,20 @@ final commandsListProvider = AutoDisposeFutureProvider<List<Command>>.internal(
 );
 
 typedef CommandsListRef = AutoDisposeFutureProviderRef<List<Command>>;
+String _$asyncItemsHash() => r'd6af61bfb0987f58c8696604ed649ec5754019ba';
+
+/// See also [AsyncItems].
+@ProviderFor(AsyncItems)
+final asyncItemsProvider =
+    AutoDisposeAsyncNotifierProvider<AsyncItems, List<Item>>.internal(
+  AsyncItems.new,
+  name: r'asyncItemsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$asyncItemsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$AsyncItems = AutoDisposeAsyncNotifier<List<Item>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
