@@ -1,12 +1,17 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 
-const borderColor = Color(0xFF805306);
+// Light
+const borderColor = Color(0xFF44475A);
+const sidebarColor = Color(0xFFfaf8f7);
+const backgroundStartColor = Color(0xFFFFFFFF);
+const backgroundEndColor = Color(0xFFFFFFFF);
 
-const sidebarColor = Color(0xFFF6A00C);
-
-const backgroundStartColor = Color(0xFFFFD500);
-const backgroundEndColor = Color(0xFFF6A00C);
+// Dark
+// const borderColor = Color(0xFF44475A);
+// const sidebarColor = Color(0xFF282828);
+// const backgroundStartColor = Color(0xFF1e1e1e);
+// final backgroundEndColor = Color(0xFF1e1e1e);
 
 final buttonColors = WindowButtonColors(
     iconNormal: const Color(0xFF805306),
