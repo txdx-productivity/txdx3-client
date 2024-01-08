@@ -24,16 +24,18 @@ class MainView extends HookConsumerWidget {
         child: Column(children: [
           WindowTitleBarBox(
             child: Row(
-              children: [Expanded(child: MoveWindow()), const WindowButtons()],
+              children: [
+                Expanded(flex: 1, child: MoveWindow()),
+                const WindowButtons()
+              ],
             ),
           ),
           Container(
-            child: switch (commands) {
-              AsyncError(:final error) => Text("error: $error"),
-              AsyncData(:final value) => Text(value.first.name),
-              _ => const Center(child: CircularProgressIndicator()),
-            }
-          )
+              child: switch (commands) {
+            AsyncError(:final error) => Text("error: $error"),
+            AsyncData(:final value) => Text(value.first.name),
+            _ => const Text("Please, stand by..."),
+          })
         ]),
       ),
     );
