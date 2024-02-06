@@ -45,3 +45,4 @@ app.*.map.json
 # Generated code
 *.mocks.dart
 *.g.dart
+*.data.dart
