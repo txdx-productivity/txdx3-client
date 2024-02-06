@@ -12,7 +12,7 @@ default:
 
 analyze:
   stage: check
-  image: cirrusci/flutter:stable
+  image: ghcr.io/cirruslabs/flutter:stable
   allow_failure: true
   before_script:
     - flutter pub get
@@ -22,7 +22,7 @@ analyze:
 
 test:
   stage: test
-  image: cirrusci/flutter:stable
+  image: ghcr.io/cirruslabs/flutter:stable
   before_script:
     - flutter pub get
     - flutter pub run build_runner build
