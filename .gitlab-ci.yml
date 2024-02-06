@@ -1,0 +1,30 @@
+stages:
+  - check
+  - test
+
+default:
+  cache:
+    key:
+      files:
+        - pubspec.lock
+    paths:
+      - .pub-cache/
+
+analyze:
+  stage: check
+  image: cirrusci/flutter:stable
+  allow_failure: true
+  before_script:
+    - flutter pub get
+    - flutter pub run build_runner build
+  script:
+    - flutter analyze
+
+test:
+  stage: test
+  image: cirrusci/flutter:stable
+  before_script:
+    - flutter pub get
+    - flutter pub run build_runner build
+  script:
+    - flutter test --reporter=expanded
