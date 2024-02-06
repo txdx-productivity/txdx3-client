@@ -2,7 +2,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 
 // Light
-const borderColor = Color(0xFF44475A);
+const borderColor = Color(0xFF9D9D9D);
 const sidebarColor = Color(0xFFfaf8f7);
 const backgroundStartColor = Color(0xFFFFFFFF);
 const backgroundEndColor = Color(0xFFFFFFFF);
