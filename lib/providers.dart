@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:pocketbase/pocketbase.dart";
+import 'package:txdx3_client/models/txdx_item.dart';
 
 import 'models/mutation.dart';
+import 'models/state_manager.dart';
 
 part 'providers.g.dart';
 
@@ -22,10 +26,26 @@ AuthStore? authStore(AuthStoreRef ref) {
   return null;
 }
 
-@riverpod
-Future<List<Mutation>> mutationsPod(MutationsPodRef ref) async {
-  final pb = ref.watch(pocketBaseProvider);
-  final results = await pb.collection("mutations").getFullList();
+final _mutationsStream = StreamController<List<Mutation>>();
 
-  return results.map((record) => Mutation.fromRecord(record)).toList();
+@riverpod
+Stream<List<Mutation>> mutations(MutationsRef ref) async* {
+  final pb = ref.watch(pocketBaseProvider);
+  ref.onDispose(() {
+    pb.collection("mutations").unsubscribe("*");
+    _mutationsStream.close();
+  });
+
+  var mutationsList = <Mutation>[];
+
+  pb.collection("mutations").subscribe("*", (event) {
+    final mutation = Mutation.fromRecord(event.record!);
+    mutationsList = [...mutationsList, mutation];
+    _mutationsStream.add(mutationsList);
+  });
+
+  await for (final data in _mutationsStream.stream) {
+    yield data;
+  }
 }
+

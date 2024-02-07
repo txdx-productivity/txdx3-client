@@ -10,7 +10,9 @@ class MainView extends HookConsumerWidget {
   const MainView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final commands = ref.watch(mutationsPodProvider);
+    final muts = ref.watch(mutationsProvider);
+    
+    muts.whenData((value) => print("Got data!"));
 
     return Expanded(
       child: Container(
@@ -31,7 +33,7 @@ class MainView extends HookConsumerWidget {
             ),
           ),
           Container(
-              child: switch (commands) {
+              child: switch (muts) {
             AsyncError(:final error) => Text("error: $error"),
             AsyncData(:final value) => Text(value.first.payload.uuid),
             _ => const Text("Please, stand by..."),

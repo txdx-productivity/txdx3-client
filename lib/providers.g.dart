@@ -50,19 +50,19 @@ final authStoreProvider = AutoDisposeProvider<AuthStore?>.internal(
 );
 
 typedef AuthStoreRef = AutoDisposeProviderRef<AuthStore?>;
-String _$mutationsPodHash() => r'ac2189ea53889a4134d3f4833412615e13b070a5';
+String _$mutationsHash() => r'c109a28b5e7ffad8c77d3726a5711044c45d073e';
 
-/// See also [mutationsPod].
-@ProviderFor(mutationsPod)
-final mutationsPodProvider = AutoDisposeFutureProvider<List<Mutation>>.internal(
-  mutationsPod,
-  name: r'mutationsPodProvider',
+/// See also [mutations].
+@ProviderFor(mutations)
+final mutationsProvider = AutoDisposeStreamProvider<List<Mutation>>.internal(
+  mutations,
+  name: r'mutationsProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$mutationsPodHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$mutationsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef MutationsPodRef = AutoDisposeFutureProviderRef<List<Mutation>>;
+typedef MutationsRef = AutoDisposeStreamProviderRef<List<Mutation>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
