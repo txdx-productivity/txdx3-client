@@ -10,11 +10,11 @@ class MainView extends HookConsumerWidget {
   const MainView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final commands = ref.watch(commandsListProvider);
+    final commands = ref.watch(mutationsPodProvider);
 
     return Expanded(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -33,7 +33,7 @@ class MainView extends HookConsumerWidget {
           Container(
               child: switch (commands) {
             AsyncError(:final error) => Text("error: $error"),
-            AsyncData(:final value) => Text(value.first.name),
+            AsyncData(:final value) => Text(value.first.payload.uuid),
             _ => const Text("Please, stand by..."),
           })
         ]),

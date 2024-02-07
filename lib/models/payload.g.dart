@@ -7,17 +7,18 @@ part of 'payload.dart';
 // **************************************************************************
 
 Payload _$PayloadFromJson(Map<String, dynamic> json) => Payload(
-      title: json['title'] as String,
-      description: json['description'] as String?,
-      dueOn: json['dueOn'] == null
+      uuid: json['uuid'] as String,
+    )
+      ..title = json['title'] as String?
+      ..description = json['description'] as String?
+      ..dueOn =
+          json['dueOn'] == null ? null : DateTime.parse(json['dueOn'] as String)
+      ..completedAt = json['completedAt'] == null
           ? null
-          : DateTime.parse(json['dueOn'] as String),
-      completedAt: json['completedAt'] == null
-          ? null
-          : DateTime.parse(json['completedAt'] as String),
-    );
+          : DateTime.parse(json['completedAt'] as String);
 
 Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
+      'uuid': instance.uuid,
       'title': instance.title,
       'description': instance.description,
       'dueOn': instance.dueOn?.toIso8601String(),

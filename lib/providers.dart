@@ -2,7 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:pocketbase/pocketbase.dart";
 
-import 'models/command.dart';
+import 'models/mutation.dart';
 
 part 'providers.g.dart';
 
@@ -23,9 +23,9 @@ AuthStore? authStore(AuthStoreRef ref) {
 }
 
 @riverpod
-Future<List<Command>> commandsList(CommandsListRef ref) async {
+Future<List<Mutation>> mutationsPod(MutationsPodRef ref) async {
   final pb = ref.watch(pocketBaseProvider);
-  final results = await pb.collection("commands").getFullList();
+  final results = await pb.collection("mutations").getFullList();
 
-  return results.map((record) => Command.fromRecord(record)).toList();
+  return results.map((record) => Mutation.fromRecord(record)).toList();
 }
