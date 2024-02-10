@@ -10,7 +10,7 @@ class MainView extends HookConsumerWidget {
   const MainView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(itemsProvider);
+    final items = ref.watch(itemsPod);
 
     return Expanded(
       child: Container(
@@ -31,9 +31,7 @@ class MainView extends HookConsumerWidget {
             ),
           ),
           Expanded(
-            child: items.when(
-              data: (items) {
-                return ListView.builder(
+            child: ListView.builder(
                   itemCount: items.length,
                   itemBuilder: (context, index) {
                     final item = items[index];
@@ -41,10 +39,6 @@ class MainView extends HookConsumerWidget {
                       title: Text(item.title ?? ""),
                     );
                   },
-                );
-              },
-              loading: () => const CircularProgressIndicator(),
-              error: (error, stackTrace) => Text('Error: $error'),
             ),
           ),
         ]),
