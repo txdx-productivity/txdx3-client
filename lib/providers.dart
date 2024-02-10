@@ -11,6 +11,10 @@ final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) async 
   return SharedPreferences.getInstance();
 });
 
+final isDesktopPod = Provider<bool>((ref) {
+  return false;
+});
+
 // Provider for the PocketBase instance
 final pocketBasePod = Provider((ref) {
   return PocketBase("http://127.0.0.1:8090");
@@ -29,4 +33,8 @@ final txdxItemManagerPod = NotifierProvider<TxDxItemManager, List<TxDxItem>>(() 
 
 final itemsPod = Provider<List<TxDxItem>>((ref) {
   return ref.watch(txdxItemManagerPod);
+});
+
+final selectedItemPod = StateProvider<TxDxItem?>((ref) {
+  return null;
 });

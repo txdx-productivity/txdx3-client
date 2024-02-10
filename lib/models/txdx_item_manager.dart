@@ -32,7 +32,10 @@ class TxDxItemManager extends Notifier<List<TxDxItem>> {
         break;
       case "update_item":
         final currentItem = state.where((item) => item.uuid == mutation.payload.uuid).first;
-        final updatedItem = currentItem.copyWith(title: mutation.payload.title);
+        final updatedItem = currentItem.copyWith(
+          title: mutation.payload.title ?? currentItem.title,
+          completedAt: mutation.payload.completedAt ?? currentItem.completedAt,
+        );
         state = state.map((item) => item.uuid == updatedItem.uuid ? updatedItem : item).toList();
         break;
     // case "delete":
