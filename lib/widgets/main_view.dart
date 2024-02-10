@@ -10,9 +10,7 @@ class MainView extends HookConsumerWidget {
   const MainView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final muts = ref.watch(mutationsProvider);
-    
-    muts.whenData((value) => print("Got data!"));
+    final items = ref.watch(itemsProvider);
 
     return Expanded(
       child: Container(
@@ -32,12 +30,23 @@ class MainView extends HookConsumerWidget {
               ],
             ),
           ),
-          Container(
-              child: switch (muts) {
-            AsyncError(:final error) => Text("error: $error"),
-            AsyncData(:final value) => Text(value.first.payload.uuid),
-            _ => const Text("Please, stand by..."),
-          })
+          Expanded(
+            child: items.when(
+              data: (items) {
+                return ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return ListTile(
+                      title: Text(item.title ?? ""),
+                    );
+                  },
+                );
+              },
+              loading: () => const CircularProgressIndicator(),
+              error: (error, stackTrace) => Text('Error: $error'),
+            ),
+          ),
         ]),
       ),
     );

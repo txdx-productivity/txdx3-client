@@ -8,6 +8,7 @@ part of 'payload.dart';
 
 Payload _$PayloadFromJson(Map<String, dynamic> json) => Payload(
       uuid: json['uuid'] as String,
+      action: json['action'] as String,
     )
       ..title = json['title'] as String?
       ..description = json['description'] as String?
@@ -19,6 +20,7 @@ Payload _$PayloadFromJson(Map<String, dynamic> json) => Payload(
 
 Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
       'uuid': instance.uuid,
+      'action': instance.action,
       'title': instance.title,
       'description': instance.description,
       'dueOn': instance.dueOn?.toIso8601String(),

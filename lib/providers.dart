@@ -1,51 +1,44 @@
 import 'dart:async';
 
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:riverpod/riverpod.dart";
+
 import "package:pocketbase/pocketbase.dart";
-import 'package:txdx3_client/models/txdx_item.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'models/mutation.dart';
 import 'models/state_manager.dart';
+import 'models/txdx_item.dart';
+import 'models/txdx_state.dart';
 
-part 'providers.g.dart';
 
-@riverpod
-Future<SharedPreferences> sharedPreferences(SharedPreferencesRef ref) async {
+final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) async {
   return SharedPreferences.getInstance();
-}
+});
 
-@riverpod
-PocketBase pocketBase(PocketBaseRef ref) {
+final pocketBasePod = Provider((ref) {
   return PocketBase("http://127.0.0.1:8090");
-}
+});
 
-@riverpod
-AuthStore? authStore(AuthStoreRef ref) {
-  // TODO: Implement user auth
-  return null;
-}
+final stateManagerPod = Provider<StateManager>((ref) {
+  final pb = ref.watch(pocketBasePod);
+  return StateManager(pocketBase: pb);
+});
 
-final _mutationsStream = StreamController<List<Mutation>>();
+final statePod = Provider<TxDxState> ((ref) {
+  final stateManager = ref.watch(stateManagerPod);
+  return stateManager.state;
+});
 
-@riverpod
-Stream<List<Mutation>> mutations(MutationsRef ref) async* {
-  final pb = ref.watch(pocketBaseProvider);
-  ref.onDispose(() {
-    pb.collection("mutations").unsubscribe("*");
-    _mutationsStream.close();
-  });
+//
+// @riverpod
+// AuthStore? authStore(AuthStoreRef ref) {
+//   // TODO: Implement user auth
+//   return null;
+// }
 
-  var mutationsList = <Mutation>[];
 
-  pb.collection("mutations").subscribe("*", (event) {
-    final mutation = Mutation.fromRecord(event.record!);
-    mutationsList = [...mutationsList, mutation];
-    _mutationsStream.add(mutationsList);
-  });
-
-  await for (final data in _mutationsStream.stream) {
-    yield data;
-  }
-}
-
+//
+// @riverpod
+// Future<List<TxDxItem>> items(ItemsRef ref) async {
+//   final stateManager = ref.watch(stateManagerProvider);
+//   return stateManager.state.items;
+// }
